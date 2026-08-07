@@ -1,0 +1,6 @@
+{% extends "public/base.html" %}
+{% block title %}Mission | {{ school_name }}{% endblock %}
+{% block content %}
+<div class="page-header"><div class="container"><h1>Our Mission</h1></div></div>
+<section class="section"><div class="container"><p>{{ school_settings.get("mission", "To provide quality education that empowers students.") }}</p></div></section>
+{% endblock %}

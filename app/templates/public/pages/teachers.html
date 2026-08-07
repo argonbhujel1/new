@@ -1,0 +1,20 @@
+{% extends "public/base.html" %}
+{% block title %}Our Teaching Members | {{ school_name }}{% endblock %}
+{% block content %}
+<div class="page-header"><div class="container"><h1>Our Teaching Members</h1></div></div>
+<section class="section"><div class="container">
+{% if school_settings.get('teachers_group_photo') %}
+<div class="mb-5 text-center">
+<img src="{{ school_settings.teachers_group_photo|media }}" alt="Teaching Team" class="img-fluid rounded-4 shadow" style="max-height:420px;object-fit:cover;width:100%;max-width:900px">
+<p class="text-muted mt-2">Our Dedicated Teaching Team</p>
+</div>
+{% endif %}
+<div class="row g-4">
+{% for t in teachers %}
+<div class="col-md-4 col-lg-3"><div class="feature-card text-center">
+<div class="rounded-circle bg-light mx-auto mb-3" style="width:100px;height:100px;{% if t.photo %}background:url('{{ t.photo|media }}') center/cover{% endif %}"></div>
+<h5>{{ t.name }}</h5><p class="text-muted small">{{ t.position }}</p><p class="small">{{ t.qualification }}</p>
+</div></div>
+{% else %}<p>No teachers listed yet.</p>{% endfor %}
+</div></div></section>
+{% endblock %}

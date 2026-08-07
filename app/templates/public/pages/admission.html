@@ -1,0 +1,10 @@
+{% extends "public/base.html" %}
+{% block title %}Admission | {{ school_name }}{% endblock %}
+{% block content %}
+<div class="page-header"><div class="container"><h1>Admission</h1></div></div>
+<section class="section"><div class="container text-center">
+<h3>Join New Vision Academy</h3>
+<p class="lead mb-4">Admissions are open for the academic year 2026-27.</p>
+<a href="{{ url_for("public.admission_enquiry") }}" class="btn btn-primary btn-lg">Submit Enquiry</a>
+</div></section>
+{% endblock %}

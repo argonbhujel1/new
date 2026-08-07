@@ -1,0 +1,37 @@
+{% extends "public/base.html" %}
+{% block title %}Admission Enquiry | {{ school_name }}{% endblock %}
+{% block content %}
+<div class="page-header"><div class="container"><h1>Admission Enquiry</h1></div></div>
+<section class="section"><div class="container"><div class="row justify-content-center"><div class="col-lg-8">
+<div class="card shadow border-0"><div class="card-body p-4">
+<h4 class="mb-4">Admission Enquiry Form</h4>
+<form method="POST">
+<input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+<div class="row g-3">
+<div class="col-md-6"><label class="form-label">Student Name *</label><input type="text" name="student_name" class="form-control" required></div>
+<div class="col-md-6"><label class="form-label">Guardian Name *</label><input type="text" name="guardian_name" class="form-control" required></div>
+<div class="col-md-6"><label class="form-label">Phone *</label><input type="tel" name="phone" class="form-control" required></div>
+<div class="col-md-6"><label class="form-label">Email</label><input type="email" name="email" class="form-control"></div>
+<div class="col-md-6"><label class="form-label">Interested Grade</label>
+<select name="interested_grade" class="form-select">
+<option value="">Select Grade</option>
+<option value="Nursery">Nursery</option>
+<option value="LKG">LKG</option>
+<option value="UKG">UKG</option>
+<option value="Grade 1">Grade 1</option>
+<option value="Grade 2">Grade 2</option>
+<option value="Grade 3">Grade 3</option>
+<option value="Grade 4">Grade 4</option>
+<option value="Grade 5">Grade 5</option>
+<option value="Grade 6">Grade 6</option>
+<option value="Grade 7">Grade 7</option>
+<option value="Grade 8">Grade 8</option>
+<option value="Grade 9">Grade 9</option>
+</select></div>
+<div class="col-md-6"><label class="form-label">Previous School</label><input type="text" name="previous_school" class="form-control"></div>
+<div class="col-12"><label class="form-label">Address</label><textarea name="address" class="form-control" rows="2"></textarea></div>
+<div class="col-12"><label class="form-label">Message</label><textarea name="message" class="form-control" rows="3"></textarea></div>
+<div class="col-12"><button type="submit" class="btn btn-primary btn-lg">Submit Enquiry</button></div>
+</div></form>
+</div></div></div></div></div></section>
+{% endblock %}

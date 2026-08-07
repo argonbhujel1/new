@@ -1,0 +1,12 @@
+{% extends "public/base.html" %}
+{% block title %}Chairman Message | {{ school_name }}{% endblock %}
+{% block content %}
+<div class="page-header"><div class="container"><h1>Chairman's Message</h1></div></div>
+<section class="section"><div class="container">
+{% if chairman %}
+<div class="message-card mx-auto" style="max-width:800px"><div class="content">
+<div class="name">{{ chairman.name }}</div><div class="designation">{{ chairman.designation }}</div>
+<p class="quote">{{ chairman.message }}</p></div></div>
+{% else %}<p>Message coming soon.</p>{% endif %}
+</div></section>
+{% endblock %}

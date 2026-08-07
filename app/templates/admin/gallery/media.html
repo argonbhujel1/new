@@ -1,0 +1,15 @@
+{% extends "admin/base.html" %}
+{% block title %}Media{% endblock %}{% block page_title %}Album: {{ album.title }}{% endblock %}
+{% block content %}
+<form method="POST" enctype="multipart/form-data" class="card mb-3"><div class="card-body">
+<input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+<label>Upload Images</label>
+<input type="file" name="files" class="form-control mb-2" multiple accept="image/*">
+<button type="submit" class="btn btn-primary">Upload</button>
+</div></form>
+<div class="row g-3">
+{% for m in media %}
+<div class="col-md-3"><div class="card"><img src="{{ m.file_path|media }}" class="card-img-top" style="height:150px;object-fit:cover"></div></div>
+{% else %}<p class="text-muted">No media</p>{% endfor %}
+</div>
+{% endblock %}

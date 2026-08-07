@@ -1,0 +1,23 @@
+{% extends "admin/base.html" %}
+{% block title %}Top Students{% endblock %}
+{% block page_title %}Top Students of Batch{% endblock %}
+{% block content %}
+<div class="d-flex justify-content-end mb-3">
+<a href="{{ url_for("admin.top_students_add") }}" class="btn btn-primary btn-sm">Add Top Student</a>
+</div>
+<div class="card"><div class="table-responsive"><table class="table mb-0">
+<thead><tr><th>Name</th><th>Batch</th><th>Rank</th><th>%</th><th>Achievement</th><th>Actions</th></tr></thead>
+<tbody>
+{% for s in students %}
+<tr>
+<td>{{ s.name }}</td><td>{{ s.batch_year }}</td><td>#{{ s.rank }}</td><td>{{ s.percentage or "-" }}</td><td>{{ s.achievement or "-" }}</td>
+<td>
+<a href="{{ url_for("admin.top_students_edit", id=s.id) }}" class="btn btn-sm btn-outline-primary">Edit</a>
+<form method="POST" action="{{ url_for("admin.top_students_delete", id=s.id) }}" class="d-inline" onsubmit="return confirm('Delete?')">
+<input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+<button class="btn btn-sm btn-outline-danger">Del</button>
+</form>
+</td></tr>
+{% else %}<tr><td colspan="6">No top students yet. Add 3 students per batch.</td></tr>{% endfor %}
+</tbody></table></div></div>
+{% endblock %}

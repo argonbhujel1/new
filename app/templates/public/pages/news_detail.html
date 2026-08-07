@@ -1,0 +1,8 @@
+{% extends "public/base.html" %}
+{% block title %}{{ news.title }} | {{ school_name }}{% endblock %}
+{% block content %}
+<div class="page-header"><div class="container"><h1>{{ news.title }}</h1></div></div>
+<section class="section"><div class="container">
+<div>{{ news.content|safe }}</div>
+</div></section>
+{% endblock %}

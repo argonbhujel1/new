@@ -1,0 +1,52 @@
+{% extends "admin/base.html" %}
+{% block title %}AI Settings{% endblock %}{% block page_title %}AI Auto-Reply Settings{% endblock %}
+{% block content %}
+
+<form method="POST" action="{{ url_for('admin.ai_run_now') }}" class="mb-3">
+<input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+<button type="submit" class="btn btn-warning"><i class="fas fa-robot"></i> Run AI Check Now</button>
+<small class="text-muted ms-2">Processes pending enquiries/messages older than wait time immediately.</small>
+</form>
+
+<form method="POST">
+<input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+<div class="card mb-3"><div class="card-body">
+<div class="form-check form-switch mb-3">
+<input class="form-check-input" type="checkbox" name="is_enabled" id="aiEn" {% if setting.is_enabled %}checked{% endif %}>
+<label class="form-check-label" for="aiEn">Enable AI Auto-Reply</label>
+</div>
+<div class="mb-3"><label>Wait Time (hours)</label>
+<select name="wait_hours" class="form-select" style="max-width:280px">
+<option value="0.083" {% if setting.wait_hours == 0.083 %}selected{% endif %}>5 Minutes</option>
+<option value="0.25" {% if setting.wait_hours == 0.25 %}selected{% endif %}>15 Minutes</option>
+<option value="0.5" {% if setting.wait_hours == 0.5 %}selected{% endif %}>30 Minutes</option>
+<option value="1" {% if setting.wait_hours == 1 or setting.wait_hours == 1.0 %}selected{% endif %}>1 Hour</option>
+<option value="2" {% if setting.wait_hours == 2 or setting.wait_hours == 2.0 %}selected{% endif %}>2 Hours</option>
+<option value="3" {% if setting.wait_hours == 3 or setting.wait_hours == 3.0 %}selected{% endif %}>3 Hours</option>
+<option value="6" {% if setting.wait_hours == 6 or setting.wait_hours == 6.0 %}selected{% endif %}>6 Hours</option>
+<option value="12" {% if setting.wait_hours == 12 or setting.wait_hours == 12.0 %}selected{% endif %}>12 Hours</option>
+<option value="24" {% if setting.wait_hours == 24 or setting.wait_hours == 24.0 %}selected{% endif %}>24 Hours</option>
+</select></div>
+<div class="mb-3"><label>Admission Template</label>
+<textarea name="admission_template" class="form-control" rows="8">{{ setting.admission_template or "" }}</textarea>
+<small class="text-muted">Variables: {guardian_name}, {grade}, {student_name}</small></div>
+<div class="mb-3"><label>Contact Template</label>
+<textarea name="contact_template" class="form-control" rows="6">{{ setting.contact_template or "" }}</textarea>
+<small class="text-muted">Variables: {name}, {subject}</small></div>
+<div class="mb-3"><label>Fee Template</label>
+<textarea name="fee_template" class="form-control" rows="4">{{ setting.fee_template or "" }}</textarea></div>
+<div class="mb-3"><label>General Template</label>
+<textarea name="general_template" class="form-control" rows="4">{{ setting.general_template or "" }}</textarea></div>
+<button type="submit" class="btn btn-primary">Save AI Settings</button>
+</div></div>
+</form>
+<div class="card"><div class="card-header">Recent AI Replies</div>
+<div class="table-responsive"><table class="table mb-0">
+<thead><tr><th>Type</th><th>Recipient</th><th>Wait</th><th>Date</th></tr></thead>
+<tbody>
+{% for l in logs %}
+<tr><td>{{ l.source_type }}</td><td>{{ l.recipient_name }} ({{ l.recipient_email }})</td>
+<td>{{ l.wait_hours }}h</td><td>{{ l.created_at.strftime("%d %b %H:%M") if l.created_at else "" }}</td></tr>
+{% else %}<tr><td colspan="4">No AI replies yet</td></tr>{% endfor %}
+</tbody></table></div></div>
+{% endblock %}

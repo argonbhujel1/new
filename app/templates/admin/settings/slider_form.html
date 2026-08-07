@@ -1,0 +1,23 @@
+{% extends "admin/base.html" %}
+{% block title %}{% if slide %}Edit{% else %}Add{% endif %} Slide{% endblock %}
+{% block page_title %}{% if slide %}Edit{% else %}Add{% endif %} Slide{% endblock %}
+{% block content %}
+<form method="POST" enctype="multipart/form-data">
+<input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+<div class="card"><div class="card-body">
+<div class="mb-3"><label>Heading</label><input type="text" name="heading" class="form-control" value="{{ slide.heading if slide else "" }}"></div>
+<div class="mb-3"><label>Sub Heading</label><input type="text" name="sub_heading" class="form-control" value="{{ slide.sub_heading if slide else "" }}"></div>
+<div class="mb-3"><label>Description</label><textarea name="description" class="form-control" rows="2">{{ slide.description if slide else "" }}</textarea></div>
+<div class="row g-3 mb-3">
+<div class="col-md-6"><label>Button Text</label><input type="text" name="button_text" class="form-control" value="{{ slide.button_text if slide else "" }}"></div>
+<div class="col-md-6"><label>Button URL</label><input type="text" name="button_url" class="form-control" value="{{ slide.button_url if slide else "" }}"></div>
+</div>
+<div class="row g-3 mb-3">
+<div class="col-md-4"><label>Display Order</label><input type="number" name="display_order" class="form-control" value="{{ slide.display_order if slide else 0 }}"></div>
+<div class="col-md-4"><label>Active</label><div class="form-check mt-2"><input type="checkbox" name="is_active" class="form-check-input" {% if not slide or slide.is_active %}checked{% endif %}></div></div>
+<div class="col-md-4"><label>Image</label><input type="file" name="image" class="form-control" accept="image/*"></div>
+</div>
+<button type="submit" class="btn btn-primary">Save</button>
+<a href="{{ url_for("admin.slider_list") }}" class="btn btn-secondary">Cancel</a>
+</div></div></form>
+{% endblock %}

@@ -1,0 +1,15 @@
+{% extends "admin/base.html" %}
+{% block title %}Facility{% endblock %}{% block page_title %}Facility{% endblock %}
+{% block content %}
+<form method="POST" enctype="multipart/form-data">
+<input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+<div class="card"><div class="card-body">
+<div class="mb-3"><label>Title</label><input type="text" name="title" class="form-control" value="{{ item.title if item else "" }}" required></div>
+<div class="mb-3"><label>Description</label><textarea name="description" class="form-control" rows="3">{{ item.description if item else "" }}</textarea></div>
+<div class="mb-3"><label>Icon (Font Awesome class)</label><input type="text" name="icon" class="form-control" value="{{ item.icon if item else "fas fa-star" }}" placeholder="fas fa-graduation-cap"></div>
+<div class="mb-3"><label>Order</label><input type="number" name="display_order" class="form-control" value="{{ item.display_order if item else 0 }}"></div>
+<div class="mb-3"><label>Image</label><input type="file" name="image" class="form-control" accept="image/*"></div>
+<div class="form-check mb-3"><input type="checkbox" name="is_active" class="form-check-input" {% if not item or item.is_active %}checked{% endif %}><label class="form-check-label">Active</label></div>
+<button type="submit" class="btn btn-primary">Save</button>
+</div></div></form>
+{% endblock %}

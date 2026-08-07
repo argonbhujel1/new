@@ -1,0 +1,22 @@
+{% extends "admin/base.html" %}
+{% block title %}Top Student{% endblock %}
+{% block page_title %}{% if student %}Edit{% else %}Add{% endif %} Top Student{% endblock %}
+{% block content %}
+<form method="POST" enctype="multipart/form-data">
+<input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+<div class="card"><div class="card-body">
+<div class="row g-3">
+<div class="col-md-6"><label>Name *</label><input type="text" name="name" class="form-control" value="{{ student.name if student else "" }}" required></div>
+<div class="col-md-6"><label>Batch Year *</label><input type="text" name="batch_year" class="form-control" value="{{ student.batch_year if student else "SEE 2081" }}" placeholder="SEE 2081" required></div>
+<div class="col-md-3"><label>Rank (1/2/3)</label><input type="number" name="rank" class="form-control" value="{{ student.rank if student else 1 }}" min="1" max="3"></div>
+<div class="col-md-3"><label>Percentage</label><input type="text" name="percentage" class="form-control" value="{{ student.percentage if student else "" }}" placeholder="92.5%"></div>
+<div class="col-md-3"><label>Display Order</label><input type="number" name="display_order" class="form-control" value="{{ student.display_order if student else 0 }}"></div>
+<div class="col-md-3"><label>Photo</label><input type="file" name="photo" class="form-control" accept="image/*"></div>
+<div class="col-12"><label>Achievement</label><input type="text" name="achievement" class="form-control" value="{{ student.achievement if student else "" }}" placeholder="School Topper"></div>
+<div class="col-12"><div class="form-check"><input type="checkbox" name="is_active" class="form-check-input" {% if not student or student.is_active %}checked{% endif %}><label class="form-check-label">Active</label></div></div>
+</div>
+<button type="submit" class="btn btn-primary mt-3">Save</button>
+<a href="{{ url_for("admin.top_students_list") }}" class="btn btn-secondary mt-3">Cancel</a>
+</div></div>
+</form>
+{% endblock %}

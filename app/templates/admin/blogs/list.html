@@ -1,0 +1,15 @@
+{% extends "admin/base.html" %}
+{% block title %}Blogs{% endblock %}{% block page_title %}Blogs{% endblock %}
+{% block content %}
+<div class="d-flex justify-content-end mb-3"><a href="{{ url_for("admin.blogs_add") }}" class="btn btn-primary btn-sm">Add Blog</a></div>
+<div class="card"><div class="table-responsive"><table class="table mb-0">
+<thead><tr><th>Title</th><th>Status</th><th>Date</th><th>Actions</th></tr></thead>
+<tbody>
+{% for b in blogs %}
+<tr><td>{{ b.title }}</td><td>{{ b.status }}</td><td>{{ b.publish_date.strftime("%d %b %Y") if b.publish_date else "" }}</td>
+<td><a href="{{ url_for("admin.blogs_edit", id=b.id) }}" class="btn btn-sm btn-outline-primary">Edit</a>
+<form method="POST" action="{{ url_for("admin.blogs_delete", id=b.id) }}" class="d-inline" onsubmit="return confirm("Delete?")">
+<input type="hidden" name="csrf_token" value="{{ csrf_token() }}"><button class="btn btn-sm btn-outline-danger">Del</button></form></td></tr>
+{% else %}<tr><td colspan="4">No blogs</td></tr>{% endfor %}
+</tbody></table></div></div>
+{% endblock %}

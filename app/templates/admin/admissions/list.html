@@ -1,0 +1,30 @@
+{% extends "admin/base.html" %}
+{% block title %}Admissions{% endblock %}{% block page_title %}Admission Enquiries{% endblock %}
+{% block content %}
+<div class="d-flex justify-content-between mb-3">
+<form class="d-flex gap-2">
+<input type="search" name="q" value="{{ q }}" class="form-control form-control-sm" placeholder="Search...">
+<select name="status" class="form-select form-select-sm" style="width:auto">
+<option value="">All Status</option>
+<option value="new" {% if status=="new" %}selected{% endif %}>New</option>
+<option value="contacted" {% if status=="contacted" %}selected{% endif %}>Contacted</option>
+<option value="converted" {% if status=="converted" %}selected{% endif %}>Converted</option>
+</select>
+<button class="btn btn-sm btn-outline-primary">Filter</button>
+</form>
+<a href="{{ url_for("admin.admissions_export") }}" class="btn btn-sm btn-success">Export CSV</a>
+</div>
+<div class="card"><div class="table-responsive"><table class="table mb-0">
+<thead><tr><th>Student</th><th>Guardian</th><th>Phone</th><th>Grade</th><th>Status</th><th>AI</th><th>Date</th><th></th></tr></thead>
+<tbody>
+{% for e in enquiries %}
+<tr class="{% if not e.is_read %}table-warning{% endif %}">
+<td>{{ e.student_name }}</td><td>{{ e.guardian_name }}</td><td>{{ e.phone }}</td>
+<td>{{ e.interested_grade or "-" }}</td><td><span class="badge bg-info">{{ e.status }}</span></td>
+<td>{% if e.ai_replied %}<span class="badge bg-success">AI</span>{% else %}-{% endif %}</td>
+<td>{{ e.created_at.strftime("%d %b %H:%M") if e.created_at else "" }}</td>
+<td><a href="{{ url_for("admin.admissions_view", id=e.id) }}" class="btn btn-sm btn-outline-primary">View</a></td>
+</tr>
+{% else %}<tr><td colspan="8">No enquiries</td></tr>{% endfor %}
+</tbody></table></div></div>
+{% endblock %}

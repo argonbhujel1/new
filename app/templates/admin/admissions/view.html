@@ -1,0 +1,59 @@
+{% extends "admin/base.html" %}
+{% block title %}Enquiry #{{ enquiry.id }}{% endblock %}
+{% block page_title %}Enquiry Details{% endblock %}
+{% block content %}
+<div class="row g-4">
+<div class="col-lg-7">
+<div class="card mb-3"><div class="card-header">Enquiry Info</div><div class="card-body">
+<table class="table table-borderless mb-0">
+<tr><th>Student</th><td>{{ enquiry.student_name }}</td></tr>
+<tr><th>Guardian</th><td>{{ enquiry.guardian_name }}</td></tr>
+<tr><th>Phone</th><td>{{ enquiry.phone }}</td></tr>
+<tr><th>Email</th><td>{{ enquiry.email or "-" }}</td></tr>
+<tr><th>Grade</th><td>{{ enquiry.interested_grade or "-" }}</td></tr>
+<tr><th>Previous School</th><td>{{ enquiry.previous_school or "-" }}</td></tr>
+<tr><th>Message</th><td>{{ enquiry.message or "-" }}</td></tr>
+<tr><th>Date</th><td>{{ enquiry.created_at }}</td></tr>
+<tr><th>AI Replied</th><td>{% if enquiry.ai_replied %}Yes at {{ enquiry.ai_replied_at }}{% else %}No{% endif %}</td></tr>
+</table>
+</div></div>
+<div class="card"><div class="card-header">Reply History</div><div class="card-body">
+{% for r in enquiry.replies %}
+<div class="border-bottom pb-2 mb-2">
+<small class="text-muted">{% if r.is_ai %}<span class="badge bg-success">AI</span>{% else %}Admin{% endif %} &mdash; {{ r.created_at.strftime("%d %b %H:%M") }}</small>
+<p class="mb-0 mt-1">{{ r.message }}</p>
+</div>
+{% else %}<p class="text-muted">No replies yet</p>{% endfor %}
+</div></div>
+</div>
+<div class="col-lg-5">
+<div class="card mb-3"><div class="card-header">Update & Reply</div><div class="card-body">
+<form method="POST">
+<input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+<input type="hidden" name="action" value="update">
+<div class="mb-3"><label>Status</label>
+<select name="status" class="form-select">
+{% for s in ["new","contacted","in_progress","converted","closed"] %}
+<option value="{{ s }}" {% if enquiry.status==s %}selected{% endif %}>{{ s }}</option>
+{% endfor %}
+</select></div>
+<div class="mb-3"><label>Priority</label>
+<select name="priority" class="form-select">
+{% for p in ["low","normal","high","urgent"] %}
+<option value="{{ p }}" {% if enquiry.priority==p %}selected{% endif %}>{{ p }}</option>
+{% endfor %}
+</select></div>
+<div class="mb-3"><label>Internal Notes</label><textarea name="internal_notes" class="form-control" rows="3">{{ enquiry.internal_notes or "" }}</textarea></div>
+<button type="submit" class="btn btn-primary">Update</button>
+</form>
+<hr>
+<form method="POST">
+<input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+<input type="hidden" name="action" value="reply">
+<div class="mb-3"><label>Add Reply</label><textarea name="message" class="form-control" rows="4" required></textarea></div>
+<button type="submit" class="btn btn-success">Send Reply</button>
+</form>
+</div></div>
+</div>
+</div>
+{% endblock %}

@@ -1,0 +1,19 @@
+{% extends "admin/base.html" %}
+{% block title %}Analytics{% endblock %}{% block page_title %}Analytics{% endblock %}
+{% block content %}
+<div class="row g-3 mb-4">
+<div class="col-md-4"><div class="stat-card"><div class="num">{{ stats.total_visitors }}</div><div class="lbl">Total Visitors</div></div></div>
+<div class="col-md-4"><div class="stat-card"><div class="num">{{ stats.today }}</div><div class="lbl">Today</div></div></div>
+</div>
+<div class="row g-4">
+<div class="col-md-4"><div class="card"><div class="card-header">Devices</div><div class="card-body">
+{% for d,c in stats.devices %}<div class="d-flex justify-content-between"><span>{{ d or "unknown" }}</span><strong>{{ c }}</strong></div>{% endfor %}
+</div></div></div>
+<div class="col-md-4"><div class="card"><div class="card-header">Browsers</div><div class="card-body">
+{% for b,c in stats.browsers %}<div class="d-flex justify-content-between"><span>{{ b or "unknown" }}</span><strong>{{ c }}</strong></div>{% endfor %}
+</div></div></div>
+<div class="col-md-4"><div class="card"><div class="card-header">Popular Pages</div><div class="card-body">
+{% for p,c in stats.pages %}<div class="d-flex justify-content-between"><span>{{ p or "/" }}</span><strong>{{ c }}</strong></div>{% endfor %}
+</div></div></div>
+</div>
+{% endblock %}

@@ -1,0 +1,14 @@
+{% extends "public/base.html" %}
+{% block title %}Blog | {{ school_name }}{% endblock %}
+{% block content %}
+<div class="page-header"><div class="container"><h1>Blog</h1></div></div>
+<section class="section"><div class="container"><div class="row g-4">
+{% for item in blogs %}
+<div class="col-md-4"><div class="content-card"><div class="body">
+<div class="meta">{{ item.publish_date.strftime("%d %b %Y") if item.publish_date else "" }}</div>
+<h5><a href="{{ url_for("public.blog_detail", slug=item.slug) }}">{{ item.title }}</a></h5>
+<p class="small text-muted">{{ item.excerpt or "" }}</p>
+</div></div></div>
+{% else %}<p>No blogs yet.</p>{% endfor %}
+</div></div></section>
+{% endblock %}

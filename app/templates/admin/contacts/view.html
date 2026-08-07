@@ -1,0 +1,22 @@
+{% extends "admin/base.html" %}
+{% block title %}Message #{{ message.id }}{% endblock %}
+{% block page_title %}Contact Message{% endblock %}
+{% block content %}
+<div class="card mb-3"><div class="card-body">
+<p><strong>From:</strong> {{ message.name }} ({{ message.email or message.phone }})</p>
+<p><strong>Subject:</strong> {{ message.subject }}</p>
+<p><strong>Message:</strong></p>
+<p>{{ message.message }}</p>
+<p class="text-muted small">{{ message.created_at }} | AI: {% if message.ai_replied %}Yes{% else %}No{% endif %}</p>
+</div></div>
+<div class="card mb-3"><div class="card-header">Replies</div><div class="card-body">
+{% for r in message.replies %}
+<div class="border-bottom pb-2 mb-2"><small>{% if r.is_ai %}AI{% else %}Admin{% endif %} - {{ r.created_at }}</small><p>{{ r.message }}</p></div>
+{% else %}<p class="text-muted">No replies</p>{% endfor %}
+</div></div>
+<form method="POST" class="card"><div class="card-body">
+<input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+<textarea name="message" class="form-control mb-2" rows="3" required placeholder="Your reply..."></textarea>
+<button type="submit" class="btn btn-primary">Reply</button>
+</div></form>
+{% endblock %}

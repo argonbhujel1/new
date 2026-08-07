@@ -1,0 +1,12 @@
+{% extends "admin/base.html" %}
+{% block title %}Logs{% endblock %}{% block page_title %}Activity Logs{% endblock %}
+{% block content %}
+<div class="card"><div class="table-responsive"><table class="table mb-0">
+<thead><tr><th>User</th><th>Action</th><th>Details</th><th>IP</th><th>Date</th></tr></thead>
+<tbody>
+{% for l in logs %}
+<tr><td>{{ l.user.username if l.user else "-" }}</td><td>{{ l.action }}</td><td>{{ l.details or "" }}</td>
+<td>{{ l.ip_address or "" }}</td><td>{{ l.created_at.strftime("%d %b %H:%M") if l.created_at else "" }}</td></tr>
+{% else %}<tr><td colspan="5">No logs</td></tr>{% endfor %}
+</tbody></table></div></div>
+{% endblock %}

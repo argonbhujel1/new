@@ -1,0 +1,14 @@
+{% extends "public/base.html" %}
+{% block title %}Search | {{ school_name }}{% endblock %}
+{% block content %}
+<div class="page-header"><div class="container"><h1>Search</h1></div></div>
+<section class="section"><div class="container">
+<form class="mb-4"><input type="search" name="q" value="{{ q or "" }}" class="form-control form-control-lg" placeholder="Search notices, news, blogs..."></form>
+{% if q %}
+<h5>Results for "{{ q }}"</h5>
+{% for n in results.notices %}<div class="mb-2"><a href="{{ url_for("public.notice_detail", slug=n.slug) }}">{{ n.title }}</a> <span class="badge bg-secondary">Notice</span></div>{% endfor %}
+{% for n in results.news %}<div class="mb-2"><a href="{{ url_for("public.news_detail", slug=n.slug) }}">{{ n.title }}</a> <span class="badge bg-info">News</span></div>{% endfor %}
+{% for b in results.blogs %}<div class="mb-2"><a href="{{ url_for("public.blog_detail", slug=b.slug) }}">{{ b.title }}</a> <span class="badge bg-success">Blog</span></div>{% endfor %}
+{% endif %}
+</div></section>
+{% endblock %}

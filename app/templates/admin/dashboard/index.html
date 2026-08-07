@@ -1,0 +1,52 @@
+{% extends "admin/base.html" %}
+{% block title %}Dashboard{% endblock %}
+{% block page_title %}Dashboard{% endblock %}
+{% block content %}
+<div class="row g-3 mb-4">
+<div class="col-6 col-md-3"><div class="stat-card"><div class="num">{{ stats.today_visitors }}</div><div class="lbl">Today Visitors</div></div></div>
+<div class="col-6 col-md-3"><div class="stat-card"><div class="num">{{ stats.monthly_visitors }}</div><div class="lbl">Monthly Visitors</div></div></div>
+<div class="col-6 col-md-3"><div class="stat-card"><div class="num">{{ stats.unread_enquiries }}</div><div class="lbl">Unread Enquiries</div></div></div>
+<div class="col-6 col-md-3"><div class="stat-card"><div class="num">{{ stats.unread_contacts }}</div><div class="lbl">Unread Messages</div></div></div>
+</div>
+<div class="row g-3 mb-4">
+<div class="col-6 col-md-2"><div class="stat-card text-center"><div class="num">{{ stats.total_notices }}</div><div class="lbl">Notices</div></div></div>
+<div class="col-6 col-md-2"><div class="stat-card text-center"><div class="num">{{ stats.total_news }}</div><div class="lbl">News</div></div></div>
+<div class="col-6 col-md-2"><div class="stat-card text-center"><div class="num">{{ stats.total_blogs }}</div><div class="lbl">Blogs</div></div></div>
+<div class="col-6 col-md-2"><div class="stat-card text-center"><div class="num">{{ stats.gallery_images }}</div><div class="lbl">Gallery</div></div></div>
+<div class="col-6 col-md-2"><div class="stat-card text-center"><div class="num">{{ stats.subscribers }}</div><div class="lbl">Subscribers</div></div></div>
+<div class="col-6 col-md-2"><div class="stat-card text-center"><div class="num">{{ stats.ai_replies }}</div><div class="lbl">AI Replies</div></div></div>
+</div>
+<div class="row g-4">
+<div class="col-lg-8">
+<div class="card"><div class="card-header bg-white"><strong>Visitor Traffic (Last 7 Days)</strong></div>
+<div class="card-body"><canvas id="trafficChart" height="120"></canvas></div></div>
+</div>
+<div class="col-lg-4">
+<div class="card mb-3"><div class="card-header bg-white"><strong>AI Status</strong></div>
+<div class="card-body">
+{% if ai_setting and ai_setting.is_enabled %}
+<span class="badge bg-success">Enabled</span> &mdash; Wait: {{ ai_setting.wait_hours }}h
+{% else %}<span class="badge bg-secondary">Disabled</span>{% endif %}
+</div></div>
+<div class="card"><div class="card-header bg-white"><strong>Recent Enquiries</strong></div>
+<div class="card-body p-0"><ul class="list-group list-group-flush">
+{% for e in recent_enquiries %}
+<li class="list-group-item d-flex justify-content-between">
+<span>{{ e.student_name }}</span>
+<a href="{{ url_for("admin.admissions_view", id=e.id) }}" class="btn btn-sm btn-outline-primary">View</a>
+</li>
+{% else %}<li class="list-group-item text-muted">None</li>{% endfor %}
+</ul></div></div>
+</div>
+</div>
+{% endblock %}
+{% block extra_js %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+<script>
+new Chart(document.getElementById("trafficChart"), {
+type: "line",
+data: { labels: {{ chart_labels|safe }}, datasets: [{ label: "Visitors", data: {{ chart_data|safe }}, borderColor: "#1a365d", tension: 0.3, fill: true, backgroundColor: "rgba(26,54,93,0.1)" }] },
+options: { responsive: true, plugins: { legend: { display: false } } }
+});
+</script>
+{% endblock %}

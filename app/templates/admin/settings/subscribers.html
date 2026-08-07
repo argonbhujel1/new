@@ -1,0 +1,13 @@
+{% extends "admin/base.html" %}
+{% block title %}Subscribers{% endblock %}{% block page_title %}Newsletter Subscribers{% endblock %}
+{% block content %}
+<div class="card"><div class="table-responsive"><table class="table mb-0">
+<thead><tr><th>Email</th><th>Name</th><th>Date</th><th>Active</th></tr></thead>
+<tbody>
+{% for s in subscribers %}
+<tr><td>{{ s.email }}</td><td>{{ s.name or "-" }}</td>
+<td>{{ s.subscribed_at.strftime("%d %b %Y") if s.subscribed_at else "" }}</td>
+<td>{% if s.is_active %}<span class="badge bg-success">Yes</span>{% else %}No{% endif %}</td></tr>
+{% else %}<tr><td colspan="4">No subscribers</td></tr>{% endfor %}
+</tbody></table></div></div>
+{% endblock %}

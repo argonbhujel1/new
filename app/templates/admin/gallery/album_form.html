@@ -1,0 +1,12 @@
+{% extends "admin/base.html" %}
+{% block title %}Album{% endblock %}{% block page_title %}Add Album{% endblock %}
+{% block content %}
+<form method="POST">
+<input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+<div class="card"><div class="card-body">
+<div class="mb-3"><label>Title</label><input type="text" name="title" class="form-control" required></div>
+<div class="mb-3"><label>Description</label><textarea name="description" class="form-control" rows="2"></textarea></div>
+<div class="mb-3"><label>Order</label><input type="number" name="display_order" class="form-control" value="0"></div>
+<button type="submit" class="btn btn-primary">Create</button>
+</div></div></form>
+{% endblock %}

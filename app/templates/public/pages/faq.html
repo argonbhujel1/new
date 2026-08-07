@@ -1,0 +1,14 @@
+{% extends "public/base.html" %}
+{% block title %}FAQ | {{ school_name }}{% endblock %}
+{% block content %}
+<div class="page-header"><div class="container"><h1>Frequently Asked Questions</h1></div></div>
+<section class="section"><div class="container">
+<div class="accordion" id="faqAcc">
+{% for f in faqs %}
+<div class="accordion-item">
+<h2 class="accordion-header"><button class="accordion-button {% if not loop.first %}collapsed{% endif %}" type="button" data-bs-toggle="collapse" data-bs-target="#f{{ f.id }}">{{ f.question }}</button></h2>
+<div id="f{{ f.id }}" class="accordion-collapse collapse {% if loop.first %}show{% endif %}" data-bs-parent="#faqAcc"><div class="accordion-body">{{ f.answer }}</div></div>
+</div>
+{% else %}<p>No FAQs yet.</p>{% endfor %}
+</div></div></section>
+{% endblock %}

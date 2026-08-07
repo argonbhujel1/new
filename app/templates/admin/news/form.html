@@ -1,0 +1,20 @@
+{% extends "admin/base.html" %}
+{% block title %}News Form{% endblock %}{% block page_title %}News{% endblock %}
+{% block content %}
+<form method="POST" enctype="multipart/form-data">
+<input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+<div class="card"><div class="card-body">
+<div class="mb-3"><label>Title *</label><input type="text" name="title" class="form-control" value="{{ news.title if news else "" }}" required></div>
+<div class="mb-3"><label>Excerpt</label><textarea name="excerpt" class="form-control" rows="2">{{ news.excerpt if news else "" }}</textarea></div>
+<div class="mb-3"><label>Content</label><textarea name="content" class="form-control" rows="10">{{ news.content if news else "" }}</textarea></div>
+<div class="row g-3 mb-3">
+<div class="col-md-4"><label>Status</label><select name="status" class="form-select">
+<option value="draft" {% if news and news.status=="draft" %}selected{% endif %}>Draft</option>
+<option value="published" {% if news and news.status=="published" %}selected{% endif %}>Published</option>
+</select></div>
+<div class="col-md-4"><label>Featured Image</label><input type="file" name="featured_image" class="form-control" accept="image/*"></div>
+<div class="col-md-4"><div class="form-check mt-4"><input type="checkbox" name="is_featured" class="form-check-input" {% if news and news.is_featured %}checked{% endif %}><label class="form-check-label">Featured</label></div></div>
+</div>
+<button type="submit" class="btn btn-primary">Save</button>
+</div></div></form>
+{% endblock %}

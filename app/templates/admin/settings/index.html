@@ -1,0 +1,89 @@
+{% extends "admin/base.html" %}
+{% block title %}Settings{% endblock %}{% block page_title %}School Settings{% endblock %}
+{% block content %}
+<form method="POST" enctype="multipart/form-data">
+<input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+<div class="card mb-3"><div class="card-header">Basic Info</div><div class="card-body">
+<div class="row g-3">
+<div class="col-md-6"><label class="form-label">School Name</label><input type="text" name="school_name" class="form-control" value="{{ settings.get("school_name","") }}"></div>
+<div class="col-md-6"><label class="form-label">Email</label><input type="email" name="email" class="form-control" value="{{ settings.get("email","") }}"></div>
+<div class="col-md-6"><label class="form-label">Phone</label><input type="text" name="phone" class="form-control" value="{{ settings.get("phone","") }}"></div>
+<div class="col-md-6"><label class="form-label">Mobile</label><input type="text" name="mobile" class="form-control" value="{{ settings.get("mobile","") }}"></div>
+<div class="col-12"><label class="form-label">Address</label><input type="text" name="address" class="form-control" value="{{ settings.get("address","") }}"></div>
+<div class="col-md-6"><label class="form-label">Opening Time</label><input type="text" name="opening_time" class="form-control" value="{{ settings.get("opening_time","") }}"></div>
+<div class="col-md-6"><label class="form-label">Closing Time</label><input type="text" name="closing_time" class="form-control" value="{{ settings.get("closing_time","") }}"></div>
+</div></div></div>
+<div class="card mb-3"><div class="card-header">Social Media</div><div class="card-body">
+<div class="row g-3">
+<div class="col-md-6"><label>Facebook</label><input type="url" name="facebook" class="form-control" value="{{ settings.get("facebook","") }}"></div>
+<div class="col-md-6"><label>Instagram</label><input type="url" name="instagram" class="form-control" value="{{ settings.get("instagram","") }}"></div>
+<div class="col-md-6"><label>YouTube</label><input type="url" name="youtube" class="form-control" value="{{ settings.get("youtube","") }}"></div>
+<div class="col-md-6"><label>WhatsApp</label><input type="text" name="whatsapp" class="form-control" value="{{ settings.get("whatsapp","") }}"></div>
+</div></div></div>
+<div class="card mb-3"><div class="card-header">SEO</div><div class="card-body">
+<div class="mb-3"><label>SEO Title</label><input type="text" name="seo_title" class="form-control" value="{{ settings.get("seo_title","") }}"></div>
+<div class="mb-3"><label>Meta Description</label><textarea name="meta_description" class="form-control" rows="2">{{ settings.get("meta_description","") }}</textarea></div>
+<div class="mb-3"><label>Meta Keywords</label><input type="text" name="meta_keywords" class="form-control" value="{{ settings.get("meta_keywords","") }}"></div>
+</div></div>
+<div class="card mb-3"><div class="card-header">Content</div><div class="card-body">
+<div class="mb-3"><label>About School</label><textarea name="about_school" class="form-control" rows="3">{{ settings.get("about_school","") }}</textarea></div>
+<div class="mb-3"><label>Mission</label><textarea name="mission" class="form-control" rows="2">{{ settings.get("mission","") }}</textarea></div>
+<div class="mb-3"><label>Vision</label><textarea name="vision" class="form-control" rows="2">{{ settings.get("vision","") }}</textarea></div>
+<div class="mb-3"><label>Footer Text</label><textarea name="footer_text" class="form-control" rows="2">{{ settings.get("footer_text","") }}</textarea></div>
+</div></div>
+
+
+<div class="card mb-3"><div class="card-header">Logo &amp; Favicon (Browser Tab Icon)</div><div class="card-body">
+<div class="row g-3">
+<div class="col-md-6"><label class="form-label">School Logo</label>
+<input type="file" name="logo" class="form-control" accept="image/*">
+<small class="text-muted">Shown in header. Prefer PNG/SVG.</small></div>
+<div class="col-md-6"><label class="form-label">Favicon (Browser Tab Icon)</label>
+<input type="file" name="favicon" class="form-control" accept="image/png,image/x-icon,image/jpeg,image/webp">
+<small class="text-muted">Upload a circular/square logo (32x32 or 64x64 PNG). This appears as the browser tab icon. Header logo stays curved rectangular.</small></div>
+</div></div></div>
+
+<div class="card mb-3"><div class="card-header">Images &amp; Display Email</div><div class="card-body">
+<div class="row g-3">
+<div class="col-md-6"><label class="form-label">About Section Image (Homepage)</label>
+<input type="file" name="about_image" class="form-control" accept="image/*">
+{% if settings.get("about_image") %}<small class="text-muted">Current: {{ settings.about_image }}</small>{% endif %}
+</div>
+<div class="col-md-6"><label class="form-label">Teachers Group Photo</label>
+<input type="file" name="teachers_group_photo" class="form-control" accept="image/*">
+{% if settings.get("teachers_group_photo") %}<small class="text-muted">Current: {{ settings.teachers_group_photo }}</small>{% endif %}
+</div>
+<div class="col-md-6"><label class="form-label">Display Email (shown on website)</label>
+<input type="email" name="display_email" class="form-control" value="{{ settings.get("display_email","info@newvisionacademy.edu.np") }}">
+<small class="text-muted">Public-facing email. SMTP login remains separate.</small>
+</div>
+</div></div></div>
+
+
+<div class="card mb-3"><div class="card-header">Theme Colors</div><div class="card-body">
+<div class="row g-3">
+<div class="col-md-4"><label class="form-label">Primary Color</label>
+<input type="color" name="theme_primary" class="form-control form-control-color w-100" value="{{ settings.get("theme_primary","#1a365d") }}">
+</div>
+<div class="col-md-4"><label class="form-label">Secondary Color</label>
+<input type="color" name="theme_secondary" class="form-control form-control-color w-100" value="{{ settings.get("theme_secondary","#c9a227") }}">
+</div>
+<div class="col-md-4"><label class="form-label">Accent / 3rd Color</label>
+<input type="color" name="theme_accent" class="form-control form-control-color w-100" value="{{ settings.get("theme_accent","#e53e3e") }}">
+</div>
+</div>
+<small class="text-muted">These colors apply to buttons, headers, stats bar and accents across the site.</small>
+</div></div>
+
+
+<div class="card mb-3"><div class="card-header">Homepage Statistics</div><div class="card-body">
+<div class="row g-3">
+<div class="col-md-3"><label>Students</label><input type="text" name="statistics_students" class="form-control" value="{{ settings.get("statistics_students","228+") }}"></div>
+<div class="col-md-3"><label>Teachers</label><input type="text" name="statistics_teachers" class="form-control" value="{{ settings.get("statistics_teachers","25+") }}"></div>
+<div class="col-md-3"><label>Years</label><input type="text" name="statistics_years" class="form-control" value="{{ settings.get("statistics_years","10+") }}"></div>
+<div class="col-md-3"><label>Success Rate</label><input type="text" name="statistics_success" class="form-control" value="{{ settings.get("statistics_success","95%") }}"></div>
+</div></div></div>
+
+<button type="submit" class="btn btn-primary">Save Settings</button>
+</form>
+{% endblock %}

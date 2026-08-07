@@ -1,0 +1,15 @@
+{% extends "admin/base.html" %}
+{% block title %}Facilities{% endblock %}{% block page_title %}Facilities{% endblock %}
+{% block content %}
+<div class="d-flex justify-content-end mb-3"><a href="{{ url_for("admin.facilities_add") }}" class="btn btn-primary btn-sm">Add</a></div>
+<div class="card"><div class="table-responsive"><table class="table mb-0">
+<thead><tr><th>Title</th><th>Icon</th><th>Order</th><th>Actions</th></tr></thead>
+<tbody>
+{% for f in facilities %}
+<tr><td>{{ f.title }}</td><td><i class="{{ f.icon }}"></i></td><td>{{ f.display_order }}</td>
+<td><a href="{{ url_for("admin.facilities_edit", id=f.id) }}" class="btn btn-sm btn-outline-primary">Edit</a>
+<form method="POST" action="{{ url_for("admin.facilities_delete", id=f.id) }}" class="d-inline" onsubmit="return confirm("Delete?")">
+<input type="hidden" name="csrf_token" value="{{ csrf_token() }}"><button class="btn btn-sm btn-outline-danger">Del</button></form></td></tr>
+{% else %}<tr><td colspan="4">None</td></tr>{% endfor %}
+</tbody></table></div></div>
+{% endblock %}

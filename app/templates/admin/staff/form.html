@@ -1,0 +1,26 @@
+{% extends "admin/base.html" %}
+{% block title %}Staff Form{% endblock %}{% block page_title %}Staff{% endblock %}
+{% block content %}
+<form method="POST" enctype="multipart/form-data">
+<input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+<div class="card"><div class="card-body">
+<div class="row g-3">
+<div class="col-md-6"><label>Name *</label><input type="text" name="name" class="form-control" value="{{ staff.name if staff else "" }}" required></div>
+<div class="col-md-6"><label>Position</label><input type="text" name="position" class="form-control" value="{{ staff.position if staff else "" }}"></div>
+<div class="col-md-6"><label>Qualification</label><input type="text" name="qualification" class="form-control" value="{{ staff.qualification if staff else "" }}"></div>
+<div class="col-md-6"><label>Experience</label><input type="text" name="experience" class="form-control" value="{{ staff.experience if staff else "" }}"></div>
+<div class="col-md-6"><label>Email</label><input type="email" name="email" class="form-control" value="{{ staff.email if staff else "" }}"></div>
+<div class="col-md-6"><label>Phone</label><input type="text" name="phone" class="form-control" value="{{ staff.phone if staff else "" }}"></div>
+<div class="col-md-4"><label>Type</label><select name="staff_type" class="form-select">
+<option value="teacher" {% if staff and staff.staff_type=="teacher" %}selected{% endif %}>Teacher</option>
+<option value="staff" {% if staff and staff.staff_type=="staff" %}selected{% endif %}>Staff</option>
+<option value="admin" {% if staff and staff.staff_type=="admin" %}selected{% endif %}>Admin</option>
+</select></div>
+<div class="col-md-4"><label>Order</label><input type="number" name="display_order" class="form-control" value="{{ staff.display_order if staff else 0 }}"></div>
+<div class="col-md-4"><label>Photo</label><input type="file" name="photo" class="form-control" accept="image/*"></div>
+<div class="col-12"><label>Biography</label><textarea name="biography" class="form-control" rows="3">{{ staff.biography if staff else "" }}</textarea></div>
+<div class="col-12"><div class="form-check"><input type="checkbox" name="is_active" class="form-check-input" {% if not staff or staff.is_active %}checked{% endif %}><label class="form-check-label">Active</label></div></div>
+</div>
+<button type="submit" class="btn btn-primary mt-3">Save</button>
+</div></div></form>
+{% endblock %}

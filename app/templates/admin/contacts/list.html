@@ -1,0 +1,17 @@
+{% extends "admin/base.html" %}
+{% block title %}Contacts{% endblock %}{% block page_title %}Contact Messages{% endblock %}
+{% block content %}
+<div class="card"><div class="table-responsive"><table class="table mb-0">
+<thead><tr><th>Name</th><th>Subject</th><th>Status</th><th>AI</th><th>Date</th><th></th></tr></thead>
+<tbody>
+{% for m in messages %}
+<tr class="{% if not m.is_read %}table-warning{% endif %}">
+<td>{{ m.name }}</td><td>{{ m.subject or "-" }}</td>
+<td>{{ m.status }}</td>
+<td>{% if m.ai_replied %}<span class="badge bg-success">AI</span>{% else %}-{% endif %}</td>
+<td>{{ m.created_at.strftime("%d %b %H:%M") if m.created_at else "" }}</td>
+<td><a href="{{ url_for("admin.contacts_view", id=m.id) }}" class="btn btn-sm btn-outline-primary">View</a></td>
+</tr>
+{% else %}<tr><td colspan="6">No messages</td></tr>{% endfor %}
+</tbody></table></div></div>
+{% endblock %}

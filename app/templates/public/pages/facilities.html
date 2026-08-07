@@ -1,0 +1,10 @@
+{% extends "public/base.html" %}
+{% block title %}Facilities | {{ school_name }}{% endblock %}
+{% block content %}
+<div class="page-header"><div class="container"><h1>Facilities</h1></div></div>
+<section class="section"><div class="container"><div class="row g-4">
+{% for f in facilities %}
+<div class="col-md-4"><div class="feature-card"><div class="icon"><i class="{{ f.icon or "fas fa-building" }}"></i></div><h5>{{ f.title }}</h5><p>{{ f.description }}</p></div></div>
+{% endfor %}
+</div></div></section>
+{% endblock %}

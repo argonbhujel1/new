@@ -1,0 +1,6 @@
+{% extends "public/base.html" %}
+{% block title %}About | {{ school_name }}{% endblock %}
+{% block content %}
+<div class="page-header"><div class="container"><h1>About School</h1></div></div>
+<section class="section"><div class="container"><p>{{ school_settings.get("about_school", "New Vision Academy is a leading educational institution dedicated to providing holistic education.") }}</p></div></section>
+{% endblock %}

@@ -1,0 +1,10 @@
+{% extends "public/base.html" %}
+{% block title %}{{ notice.title }} | {{ school_name }}{% endblock %}
+{% block content %}
+<div class="page-header"><div class="container"><h1>{{ notice.title }}</h1></div></div>
+<section class="section"><div class="container">
+<p class="text-muted">{{ notice.publish_date.strftime("%d %b %Y") if notice.publish_date else "" }}</p>
+<div>{{ notice.content|safe }}</div>
+{% if notice.attachment %}<p class="mt-3"><a href="{{ notice.attachment|media }}" class="btn btn-outline-primary" target="_blank"><i class="fas fa-download"></i> Download Attachment</a></p>{% endif %}
+</div></section>
+{% endblock %}

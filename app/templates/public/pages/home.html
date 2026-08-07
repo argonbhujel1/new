@@ -1,0 +1,315 @@
+{% extends "public/base.html" %}
+{% block title %}{{ school_settings.get('seo_title', 'New Vision Academy | Excellence in Education') }}{% endblock %}
+
+{% block content %}
+<!-- Hero Slider -->
+<section class="hero-section">
+    <div id="heroCarousel" class="carousel slide carousel-fade" data-bs-ride="carousel" data-bs-interval="5000">
+        <div class="carousel-inner">
+            {% for slide in slides %}
+            <div class="carousel-item {% if loop.first %}active{% endif %}">
+                <div class="hero-slide" style="background-image: url('{% if slide.image %}{{ slide.image|media }}{% else %}https://images.unsplash.com/photo-1580582932707-520aed937b7b?w=1600{% endif %}');">
+                    <div class="container">
+                        <div class="hero-content">
+                            {% if slide.sub_heading %}<div class="sub">{{ slide.sub_heading }}</div>{% endif %}
+                            <h1>{{ slide.heading or 'Welcome to New Vision Academy' }}</h1>
+                            {% if slide.description %}<p>{{ slide.description }}</p>{% endif %}
+                            {% if slide.button_text %}
+                            <a href="{{ slide.button_url or '#' }}" class="btn btn-primary btn-lg">{{ slide.button_text }}</a>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% else %}
+            <div class="carousel-item active">
+                <div class="hero-slide" style="background-image: url('https://images.unsplash.com/photo-1580582932707-520aed937b7b?w=1600');">
+                    <div class="container">
+                        <div class="hero-content">
+                            <div class="sub">Shaping Tomorrow's Leaders</div>
+                            <h1>Welcome to New Vision Academy</h1>
+                            <p>A premier institution dedicated to excellence in education.</p>
+                            <a href="{{ url_for('public.admission_enquiry') }}" class="btn btn-primary btn-lg">Apply Now</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        {% if slides|length > 1 %}
+        <button class="carousel-control-prev" type="button" data-bs-target="#heroCarousel" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon"></span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#heroCarousel" data-bs-slide="next">
+            <span class="carousel-control-next-icon"></span>
+        </button>
+        {% endif %}
+    </div>
+</section>
+
+<!-- Statistics -->
+<section class="stats-section">
+    <div class="container">
+        <div class="row g-4">
+            <div class="col-6 col-md-3"><div class="stat-item"><div class="number">{{ stats.students or school_settings.get('statistics_students', '228+') }}</div><div class="label">Students</div></div></div>
+            <div class="col-6 col-md-3"><div class="stat-item"><div class="number">{{ stats.teachers or school_settings.get('statistics_teachers', '25+') }}</div><div class="label">Teachers</div></div></div>
+            <div class="col-6 col-md-3"><div class="stat-item"><div class="number">{{ stats.years or school_settings.get('statistics_years', '10+') }}</div><div class="label">Years of Excellence</div></div></div>
+            <div class="col-6 col-md-3"><div class="stat-item"><div class="number">{{ stats.success or school_settings.get('statistics_success', '95%') }}</div><div class="label">Success Rate</div></div></div>
+        </div>
+    </div>
+</section>
+
+<!-- School Introduction -->
+<section class="section">
+    <div class="container">
+        <div class="row align-items-center g-5">
+            <div class="col-lg-6">
+                <div class="section-title text-start mb-4">
+                    <h2>About {{ school_name }}</h2>
+                    <div class="line" style="margin: 0 0 15px;"></div>
+                </div>
+                <p class="text-muted" style="line-height:1.8;font-size:1.05rem">
+                  {{ school_settings.get('school_introduction') or school_settings.get('about_school') or 'New Vision Academy is a private co-educational day school in Urlabari-8, Morang, offering quality education from Early Childhood Development (ECD) to Grade 10. We focus on academic excellence, character building, and holistic development of every student in a safe and caring environment.' }}
+                </p>
+                <a href="{{ url_for('public.about') }}" class="btn btn-primary mt-3">Learn More</a>
+            </div>
+            <div class="col-lg-6">
+                {% if school_settings.get('about_image') %}
+                <img src="{{ school_settings.about_image|media }}" alt="{{ school_name }}" class="img-fluid rounded-4 shadow w-100" style="border-radius: 16px; max-height: 400px; object-fit: cover;">
+                {% else %}
+                <img src="https://images.unsplash.com/photo-1509062522246-3755977927d7?w=800" alt="Campus" class="img-fluid rounded-4 shadow w-100" style="border-radius: 16px; max-height: 400px; object-fit: cover;">
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Principal & Chairman -->
+{% if principal or chairman %}
+<section class="section bg-light">
+    <div class="container">
+        <div class="section-title"><h2>Leadership Message</h2><div class="line"></div></div>
+        <div class="row g-4">
+            {% if principal %}
+            <div class="col-lg-6">
+                <div class="message-card">
+                    <div class="photo" style="{% if principal.photo %}background-image:url('{{ principal.photo|media }}'){% endif %}"></div>
+                    <div class="content">
+                        <div class="name">{{ principal.name }}</div>
+                        <div class="designation">{{ principal.designation }}</div>
+                        <p class="quote">{{ (principal.message or '')[:250] }}{% if principal.message and principal.message|length > 250 %}...{% endif %}</p>
+                        <a href="{{ url_for('public.principal_message') }}" class="btn btn-sm btn-outline-primary">Read Full Message</a>
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+            {% if chairman %}
+            <div class="col-lg-6">
+                <div class="message-card">
+                    <div class="photo" style="{% if chairman.photo %}background-image:url('{{ chairman.photo|media }}'){% endif %}"></div>
+                    <div class="content">
+                        <div class="name">{{ chairman.name }}</div>
+                        <div class="designation">{{ chairman.designation }}</div>
+                        <p class="quote">{{ (chairman.message or '')[:250] }}{% if chairman.message and chairman.message|length > 250 %}...{% endif %}</p>
+                        <a href="{{ url_for('public.chairman_message') }}" class="btn btn-sm btn-outline-primary">Read Full Message</a>
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</section>
+{% endif %}
+
+<!-- What We Offer -->
+{% if offers %}
+<section class="section">
+    <div class="container">
+        <div class="section-title"><h2>What We Offer</h2><div class="line"></div><p>Comprehensive education for holistic development</p></div>
+        <div class="row g-4">
+            {% for item in offers %}
+            <div class="col-md-6 col-lg-3">
+                <div class="feature-card text-center">
+                    <div class="icon mx-auto"><i class="{{ item.icon or 'fas fa-star' }}"></i></div>
+                    <h5>{{ item.title }}</h5>
+                    <p>{{ item.description }}</p>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endif %}
+
+<!-- Facilities -->
+{% if facilities %}
+<section class="section bg-light">
+    <div class="container">
+        <div class="section-title"><h2>Our Facilities</h2><div class="line"></div></div>
+        <div class="row g-4">
+            {% for f in facilities %}
+            <div class="col-md-6 col-lg-4">
+                <div class="feature-card">
+                    <div class="icon"><i class="{{ f.icon or 'fas fa-building' }}"></i></div>
+                    <h5>{{ f.title }}</h5>
+                    <p>{{ f.description }}</p>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        <div class="text-center mt-4">
+            <a href="{{ url_for('public.facilities') }}" class="btn btn-primary">View All Facilities</a>
+        </div>
+    </div>
+</section>
+{% endif %}
+
+<!-- Latest Notices -->
+{% if notices %}
+<section class="section">
+    <div class="container">
+        <div class="section-title"><h2>Latest Notices</h2><div class="line"></div></div>
+        <div class="row g-3">
+            {% for n in notices %}
+            <div class="col-md-6 col-lg-4">
+                <div class="content-card">
+                    <div class="body">
+                        <div class="meta">
+                            {{ n.publish_date.strftime('%d %b %Y') if n.publish_date else '' }}
+                            {% if n.is_important %}<span class="badge bg-danger ms-1">Important</span>{% endif %}
+                            {% if n.is_pinned %}<span class="badge bg-warning text-dark ms-1">Pinned</span>{% endif %}
+                        </div>
+                        <h5><a href="{{ url_for('public.notice_detail', slug=n.slug) }}">{{ n.title }}</a></h5>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        <div class="text-center mt-4"><a href="{{ url_for('public.notices') }}" class="btn btn-outline-primary">View All Notices</a></div>
+    </div>
+</section>
+{% endif %}
+
+<!-- News & Blogs -->
+<section class="section bg-light">
+    <div class="container">
+        <div class="row g-4">
+            <div class="col-lg-6">
+                <div class="section-title text-start mb-4">
+                    <h2>Latest News</h2>
+                    <div class="line" style="margin:0 0 15px;"></div>
+                </div>
+                <div class="row g-3">
+                {% for item in news_list %}
+                <div class="col-12">
+                    <div class="content-card">
+                        <div class="body">
+                            <div class="meta">{{ item.publish_date.strftime('%d %b %Y') if item.publish_date else '' }}</div>
+                            <h5 class="text-truncate"><a href="{{ url_for('public.news_detail', slug=item.slug) }}">{{ item.title }}</a></h5>
+                            <p class="text-muted small mb-0" style="display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;">{{ item.excerpt or '' }}</p>
+                        </div>
+                    </div>
+                </div>
+                {% else %}
+                <div class="col-12"><p class="text-muted">No news yet.</p></div>
+                {% endfor %}
+                </div>
+                <a href="{{ url_for('public.news') }}" class="btn btn-sm btn-primary mt-3">All News</a>
+            </div>
+            <div class="col-lg-6">
+                <div class="section-title text-start mb-4">
+                    <h2>Latest Blogs</h2>
+                    <div class="line" style="margin:0 0 15px;"></div>
+                </div>
+                <div class="row g-3">
+                {% for item in blogs %}
+                <div class="col-12">
+                    <div class="content-card">
+                        <div class="body">
+                            <div class="meta">{{ item.publish_date.strftime('%d %b %Y') if item.publish_date else '' }}</div>
+                            <h5 class="text-truncate"><a href="{{ url_for('public.blog_detail', slug=item.slug) }}">{{ item.title }}</a></h5>
+                            <p class="text-muted small mb-0" style="display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;">{{ item.excerpt or '' }}</p>
+                        </div>
+                    </div>
+                </div>
+                {% else %}
+                <div class="col-12"><p class="text-muted">No blogs yet.</p></div>
+                {% endfor %}
+                </div>
+                <a href="{{ url_for('public.blog') }}" class="btn btn-sm btn-primary mt-3">All Blogs</a>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+
+<!-- Our Teaching Members -->
+<section class="section">
+    <div class="container">
+        <div class="section-title">
+            <h2>Our Teaching Members</h2>
+            <div class="line"></div>
+            <p>Dedicated educators shaping young minds at New Vision Academy, Urlabari</p>
+        </div>
+        <div class="text-center mb-4">
+            {% if school_settings.get('teachers_group_photo') %}
+            <img src="{{ school_settings.teachers_group_photo|media }}" alt="Teaching Team" class="img-fluid rounded-4 shadow" style="max-height:380px;object-fit:cover;width:100%;max-width:900px">
+            {% else %}
+            <img src="https://images.unsplash.com/photo-1524178232363-1fb2b075b655?w=900" alt="Teaching Team" class="img-fluid rounded-4 shadow" style="max-height:380px;object-fit:cover;width:100%;max-width:900px">
+            {% endif %}
+        </div>
+        <div class="text-center">
+            <a href="{{ url_for('public.teachers') }}" class="btn btn-primary">View All Teachers</a>
+        </div>
+    </div>
+</section>
+
+<!-- Top Students -->
+{% if top_students %}
+<section class="section">
+    <div class="container">
+        <div class="section-title">
+            <h2>Our Top Students of Batch</h2>
+            <div class="line"></div>
+            <p>Proud achievers from recent SEE batches</p>
+        </div>
+        <div class="row g-4">
+        {% for s in top_students %}
+            <div class="col-md-6 col-lg-4">
+                <div class="card h-100 border-0 shadow-sm" style="border-radius:12px">
+                    <div class="card-body d-flex align-items-center">
+                        <div class="rounded-circle bg-light d-flex align-items-center justify-content-center me-3 flex-shrink-0" style="width:56px;height:56px;">
+                            <span class="fw-bold text-primary">#{{ s.rank or 1 }}</span>
+                        </div>
+                        <div class="overflow-hidden">
+                            <div class="fw-semibold text-truncate">{{ s.name }}</div>
+                            <small class="text-muted">{{ s.batch_year or '' }}{% if s.percentage %} &middot; {{ s.percentage }}{% endif %}</small>
+                            {% if s.achievement %}<div class="small text-success">{{ s.achievement }}</div>{% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+        </div>
+    </div>
+</section>
+{% endif %}
+
+<!-- Admission CTA -->
+<section class="cta-section">
+    <div class="container">
+        <h2>Admissions Open for 2026-27</h2>
+        <p class="mb-4 opacity-75">Join New Vision Academy and give your child the foundation for a bright future.</p>
+        <a href="{{ url_for('public.admission_enquiry') }}" class="btn btn-secondary btn-lg me-2">Enquire Now</a>
+        <a href="{{ url_for('public.contact') }}" class="btn btn-outline-light btn-lg">Contact Us</a>
+    </div>
+</section>
+
+<!-- Map -->
+<section class="section p-0">
+    <div class="container-fluid p-0">
+        <iframe src="https://maps.google.com/maps?q=26.64513162062879,87.63686430000001&t=&z=16&ie=UTF8&iwloc=&output=embed" width="100%" height="350" style="border:0;" allowfullscreen loading="lazy"></iframe>
+    </div>
+</section>
+{% endblock %}

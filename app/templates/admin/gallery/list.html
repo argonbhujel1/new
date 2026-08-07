@@ -1,0 +1,13 @@
+{% extends "admin/base.html" %}
+{% block title %}Gallery{% endblock %}{% block page_title %}Gallery Albums{% endblock %}
+{% block content %}
+<div class="d-flex justify-content-end mb-3"><a href="{{ url_for("admin.gallery_album_add") }}" class="btn btn-primary btn-sm">Add Album</a></div>
+<div class="card"><div class="table-responsive"><table class="table mb-0">
+<thead><tr><th>Title</th><th>Order</th><th>Actions</th></tr></thead>
+<tbody>
+{% for a in albums %}
+<tr><td>{{ a.title }}</td><td>{{ a.display_order }}</td>
+<td><a href="{{ url_for("admin.gallery_media", id=a.id) }}" class="btn btn-sm btn-outline-primary">Media</a></td></tr>
+{% else %}<tr><td colspan="3">No albums</td></tr>{% endfor %}
+</tbody></table></div></div>
+{% endblock %}

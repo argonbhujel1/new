@@ -1,0 +1,24 @@
+{% extends "public/base.html" %}
+{% block title %}Contact | {{ school_name }}{% endblock %}
+{% block content %}
+<div class="page-header"><div class="container"><h1>Contact Us</h1></div></div>
+<section class="section"><div class="container"><div class="row g-5">
+<div class="col-lg-5">
+<h4>Get in Touch</h4>
+<p><i class="fas fa-map-marker-alt text-primary me-2"></i>{{ school_address }}</p>
+<p><i class="fas fa-phone text-primary me-2"></i>{{ school_phone }}</p>
+<p><i class="fas fa-envelope text-primary me-2"></i>{{ school_email }}</p>
+</div>
+<div class="col-lg-7">
+<form method="POST">
+<input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+<div class="row g-3">
+<div class="col-md-6"><input type="text" name="name" class="form-control" placeholder="Your Name *" required></div>
+<div class="col-md-6"><input type="email" name="email" class="form-control" placeholder="Email"></div>
+<div class="col-md-6"><input type="tel" name="phone" class="form-control" placeholder="Phone"></div>
+<div class="col-md-6"><input type="text" name="subject" class="form-control" placeholder="Subject"></div>
+<div class="col-12"><textarea name="message" class="form-control" rows="4" placeholder="Message *" required></textarea></div>
+<div class="col-12"><button type="submit" class="btn btn-primary">Send Message</button></div>
+</div></form>
+</div></div></div></section>
+{% endblock %}

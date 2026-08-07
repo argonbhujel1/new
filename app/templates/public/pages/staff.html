@@ -1,0 +1,10 @@
+{% extends "public/base.html" %}
+{% block title %}Staff | {{ school_name }}{% endblock %}
+{% block content %}
+<div class="page-header"><div class="container"><h1>Our Staff</h1></div></div>
+<section class="section"><div class="container"><div class="row g-4">
+{% for s in staff_list %}
+<div class="col-md-4"><div class="feature-card"><h5>{{ s.name }}</h5><p>{{ s.position }}</p></div></div>
+{% else %}<p>No staff listed.</p>{% endfor %}
+</div></div></section>
+{% endblock %}
